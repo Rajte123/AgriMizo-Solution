@@ -3,9 +3,9 @@
 This repository contains machine learning-based solutions for enhancing agricultural productivity, specifically focused on the state of Mizoram, India.
 It includes:
 
-✅ Crop Recommendation System
+✅ Crop Recommendation System for Mizoram
 
-✅ Plant Disease Detection System
+✅ Plant Disease Detection System for Mizoram
 
 ✅ Weather Forecasting Web App for Mizoram
 
@@ -13,6 +13,7 @@ It includes:
 bash
 Copy
 Edit
+
 agri_ml_projects/
 ├── crop_recommendation/      # ML model to recommend best crops
 ├── plant_disease_detection/  # Image-based disease classifier
