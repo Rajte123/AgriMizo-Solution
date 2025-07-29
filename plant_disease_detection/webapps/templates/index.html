@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌱 Plant Disease Detection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .upload-section {
+            background: #f8f9fa;
+            border: 3px dashed #4CAF50;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-section:hover {
+            border-color: #45a049;
+            background: #f0f8f0;
+        }
+        
+        .upload-section.dragover {
+            border-color: #2e7d32;
+            background: #e8f5e8;
+            transform: scale(1.02);
+        }
+        
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+            margin: 20px 0;
+        }
+        
+        .file-input {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .file-input-label {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #4CAF50;
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .file-input-label:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+        
+        .upload-icon {
+            font-size: 3em;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 20px auto;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
+        }
+        
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .result-section {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .result-confident {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border: 2px solid #155724;
+            color: #155724;
+        }
+        
+        .result-uncertain {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border: 2px solid #856404;
+            color: #856404;
+        }
+        
+        .result-rejected {
+            background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+            border: 2px solid #721c24;
+            color: #721c24;
+        }
+        
+        .result-text {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .result-details {
+            font-size: 0.9em;
+            opacity: 0.8;
+            background: rgba(255,255,255,0.3);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        
+        .preview-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .preview-image {
+            max-width: 300px;
+            max-height: 300px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4CAF50;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .info-section {
+            background: #e3f2fd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .info-section h3 {
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+        
+        .info-section ul {
+            color: #424242;
+            padding-left: 20px;
+        }
+        
+        .info-section li {
+            margin-bottom: 5px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌱 Plant Disease Detection</h1>
+            <p>Upload a leaf image for AI-powered disease diagnosis with uncertainty quantification</p>
+        </div>
+        
+        <div class="content">
+            <form id="uploadForm" method="post" action="/predict" enctype="multipart/form-data">
+                <div class="upload-section" id="uploadSection">
+                    <div class="upload-icon">📷</div>
+                    <h3>Upload Plant Leaf Image</h3>
+                    <p>Drag and drop an image here or click to browse</p>
+                    
+                    <div class="file-input-wrapper">
+                        <input type="file" id="file" name="file" class="file-input" accept="image/*" required>
+                        <label for="file" class="file-input-label">Choose Image</label>
+                    </div>
+                    
+                    <div class="preview-container" id="previewContainer"></div>
+                </div>
+                
+                <button type="submit" class="submit-btn" id="submitBtn" disabled>
+                    🔍 Analyze Plant Health
+                </button>
+            </form>
+            
+            <div class="loading" id="loading">
+                <div class="loading-spinner"></div>
+                <p>Analyzing your plant image...</p>
+            </div>
+            
+            {% if prediction %}
+            <div class="result-section {% if 'Rejected' in prediction or '❌' in prediction %}result-rejected{% elif 'uncertain' in prediction.lower() or '🤔' in prediction or '❓' in prediction or '⚠️' in prediction %}result-uncertain{% else %}result-confident{% endif %}">
+                <div class="result-text">{{ prediction }}</div>
+                {% if details %}
+                <div class="result-details">{{ details }}</div>
+                {% endif %}
+            </div>
+            {% endif %}
+            
+            <div class="info-section">
+                <h3>🎯 How Our AI Works</h3>
+                <ul>
+                    <li><strong>Calibrated Predictions:</strong> Uses temperature scaling for honest confidence scores</li>
+                    <li><strong>Uncertainty Quantification:</strong> Measures prediction reliability using entropy and other metrics</li>
+                    <li><strong>Multi-layered Validation:</strong> Checks if image looks like a plant leaf before diagnosis</li>
+                    <li><strong>Smart Rejection:</strong> Refuses to guess when uncertain, protecting you from bad advice</li>
+                </ul>
+                
+                <h3>📋 Supported Conditions</h3>
+                <ul>
+                    <li><strong>Pepper:</strong> Bacterial spot, Healthy</li>
+                    <li><strong>Potato:</strong> Early blight, Late blight, Healthy</li>
+                    <li><strong>Tomato:</strong> Multiple diseases including bacterial spot, blights, mosaic virus, and more</li>
+                </ul>
+                
+                <h3>💡 Tips for Best Results</h3>
+                <ul>
+                    <li>Use clear, well-lit photos of individual leaves</li>
+                    <li>Avoid blurry or dark images</li>
+                    <li>Focus on the affected area of the leaf</li>
+                    <li>Consider multiple photos for confirmation</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('file');
+        const uploadSection = document.getElementById('uploadSection');
+        const previewContainer = document.getElementById('previewContainer');
+        const submitBtn = document.getElementById('submitBtn');
+        const uploadForm = document.getElementById('uploadForm');
+        const loading = document.getElementById('loading');
+
+        // File input change handler
+        fileInput.addEventListener('change', function(e) {
+            handleFile(e.target.files[0]);
+        });
+
+        // Drag and drop handlers
+        uploadSection.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            uploadSection.classList.add('dragover');
+        });
+
+        uploadSection.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            uploadSection.classList.remove('dragover');
+        });
+
+        uploadSection.addEventListener('drop', function(e) {
+            e.preventDefault();
+            uploadSection.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                handleFile(files[0]);
+            }
+        });
+
+        // Form submission handler
+        uploadForm.addEventListener('submit', function(e) {
+            if (fileInput.files.length === 0) {
+                e.preventDefault();
+                alert('Please select an image first!');
+                return;
+            }
+            
+            // Show loading animation
+            loading.style.display = 'block';
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Analyzing...';
+        });
+
+        function handleFile(file) {
+            if (!file) return;
+            
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                alert('Please select an image file!');
+                return;
+            }
+            
+            // Validate file size (max 10MB)
+            if (file.size > 10 * 1024 * 1024) {
+                alert('Image too large! Please use an image smaller than 10MB.');
+                return;
+            }
+            
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewContainer.innerHTML = `
+                    <img src="${e.target.result}" alt="Preview" class="preview-image">
+                    <p style="margin-top: 10px; color: #4CAF50; font-weight: 500;">✅ Image loaded - ready to analyze!</p>
+                `;
+                submitBtn.disabled = false;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Auto-hide loading on page load if there's a result
+        window.addEventListener('load', function() {
+            loading.style.display = 'none';
+            submitBtn.disabled = fileInput.files.length === 0;
+            if (submitBtn.disabled) {
+                submitBtn.textContent = '🔍 Analyze Plant Health';
+            }
+        });
+    </script>
+</body>
+</html>

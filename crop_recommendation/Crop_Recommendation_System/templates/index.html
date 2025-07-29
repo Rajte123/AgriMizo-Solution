@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rice & Maize Recommendation System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+   <link rel = "stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-seedling"></i> Rice & Maize Recommendation System In Mizoram</h1>
+            <p>Enter soil and climate parameters to get personalized crop recommendations</p>
+        </div>
+        
+        <div class="content">
+            <div class="info-box">
+                <h3><i class="fas fa-info-circle"></i> Input Guidelines</h3>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> <strong>Nitrogen:</strong> 10 - 65 mg/kg</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Phosphorus:</strong> 14 - 89 mg/kg</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Potassium:</strong> 17 - 178 mg/kg</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Soil Moisture:</strong> 4 - 100%</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Temperature:</strong> 27 - 28.5°C</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Humidity:</strong> 73 - 79%</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Farming Method:</strong> Jhum, WRC, Terrace</li>
+                </ul>
+            </div>
+            
+            <div class="form-container">
+                <form id="predictionForm">
+                    <div class="input-group">
+                        <label for="nitrogen">Nitrogen (mg/kg)</label>
+                        <input type="number" id="nitrogen" name="nitrogen" min="10" max="65" placeholder="e.g. 58" required>
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="phosphorus">Phosphorus (mg/kg)</label>
+                        <input type="number" id="phosphorus" name="phosphorus" min="14" max="89" placeholder="e.g. 81" required>
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="potassium">Potassium (mg/kg)</label>
+                        <input type="number" id="potassium" name="potassium" min="17" max="178" placeholder="e.g. 162" required>
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="moisture">Soil Moisture (%)</label>
+                        <input type="number" id="moisture" name="moisture" min="4" max="100" placeholder="e.g. 51" required>
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="temperature">Temperature (°C)</label>
+                        <input type="number" id="temperature" name="temperature" min="27" max="28.5" step="0.1" placeholder="e.g. 27.9" required>
+                        <i class="fas fa-temperature-high"></i>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="humidity">Humidity (%)</label>
+                        <input type="number" id="humidity" name="humidity" min="73" max="79" step="0.1" placeholder="e.g. 75.9" required>
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="farming_method">Farming Method</label>
+                        <select id="farming_method" name="farming_method">
+                            <option value="0">Jhum</option>
+                            <option value="1">WRC</option>
+                            <option value="2">Terrace</option>
+                        </select>
+                        <i class="fas fa-tractor"></i>
+                    </div>
+                    
+                    <button type="submit">
+                        <span class="button-text">Predict Best Crop</span>
+                        <div class="loader"></div>
+                        <i class="fas fa-leaf"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="result-box" id="resultBox">
+            <h3><i class="fas fa-chart-bar"></i> Prediction Result</h3>
+            <div id="resultIcon" class="result-icon"></div>
+            <span id="result"></span>
+            <div id="errorMessage" class="error-message"></div>
+        </div>
+    </div>
+    <script src ="/static/script.js"></script>
+</body>
+</html>
