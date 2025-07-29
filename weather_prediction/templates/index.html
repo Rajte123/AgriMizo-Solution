@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecast - Mizoram</title>
+    <link rel="stylesheet" href= "/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Weather Forecast for Mizoram Districts</h1>
+        
+        <form method="POST">
+            <input type="text" name="location" placeholder="Enter district (e.g., Lunglei)" required>
+            <button type="submit">Get Weather</button>
+        </form>
+
+        {% if weather %}
+            {% if weather.error %}
+                <div class="error-message">
+                    <p>{{ weather.error }}</p>
+                </div>
+            {% else %}
+                <div class="weather-results">
+                    <h2>{{ weather.location.name }}, {{ weather.location.region }}</h2>
+                    
+                    <div class="current-weather">
+                        <p>Current: <span class="current-temp">{{ weather.current.temp_c }}°C</span></p>
+                        <p>{{ weather.current.condition.text }}</p>
+                    </div>
+                    
+                    <h3>Next 3 Days Forecast:</h3>
+                    <ul>
+                        {% for day in weather.forecast.forecastday %}
+                            <li>
+                                <span class="forecast-date">{{ day.date }}</span>
+                                <span class="forecast-temp">{{ day.day.avgtemp_c }}°C</span>
+                                <span class="forecast-condition">{{ day.day.condition.text }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+</body>
+</html>

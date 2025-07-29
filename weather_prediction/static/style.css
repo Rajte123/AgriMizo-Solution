@@ -1,0 +1,267 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  width: 100%;
+  max-width: 500px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+h1 {
+  color: #2d3748;
+  font-size: 2.2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 40px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+
+form {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 18px 24px;
+  border: 2px solid #e2e8f0;
+  border-radius: 16px;
+  font-size: 1.1rem;
+  outline: none;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.9);
+  font-family: inherit;
+}
+
+input[type="text"]:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+  transform: translateY(-2px);
+}
+
+input[type="text"]::placeholder {
+  color: #a0aec0;
+}
+
+button {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border: none;
+  padding: 12px 20px;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  font-family: inherit;
+}
+
+button:hover {
+  transform: translateY(-50%) scale(1.05);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+button:active {
+  transform: translateY(-50%) scale(0.98);
+}
+
+/* Weather Results Styling */
+.weather-results {
+  background: linear-gradient(135deg, #f7fafc, #edf2f7);
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  animation: slideIn 0.6s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+      opacity: 0;
+      transform: translateY(20px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.current-weather {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 16px;
+  border: 1px solid rgba(226, 232, 240, 0.5);
+}
+
+.current-weather p {
+  font-size: 1.2rem;
+  color: #4a5568;
+  font-weight: 500;
+}
+
+.current-temp {
+  font-size: 2.5rem !important;
+  font-weight: 800 !important;
+  color: #667eea !important;
+  margin: 10px 0 !important;
+  text-shadow: 2px 2px 8px rgba(102, 126, 234, 0.1);
+}
+
+h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+ul {
+  list-style: none;
+  display: grid;
+  gap: 15px;
+}
+
+li {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 16px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(226, 232, 240, 0.5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.forecast-date {
+  font-weight: 600;
+  color: #4a5568;
+  font-size: 1rem;
+  min-width: 100px;
+}
+
+.forecast-temp {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #667eea;
+  min-width: 60px;
+  text-align: center;
+}
+
+.forecast-condition {
+  color: #718096;
+  font-size: 0.95rem;
+  flex: 1;
+  text-align: right;
+  min-width: 120px;
+}
+
+/* Error Message Styling */
+.error-message {
+  background: linear-gradient(135deg, #fed7d7, #feb2b2);
+  color: #c53030;
+  padding: 20px;
+  border-radius: 16px;
+  text-align: center;
+  font-weight: 500;
+  border: 1px solid rgba(197, 48, 48, 0.2);
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+  .container {
+      padding: 24px;
+      margin: 10px;
+  }
+  
+  h1 {
+      font-size: 1.8rem;
+  }
+  
+  button {
+      position: static;
+      transform: none;
+      width: 100%;
+      margin-top: 15px;
+      padding: 16px;
+  }
+  
+  button:hover {
+      transform: scale(1.02);
+  }
+  
+  li {
+      flex-direction: column;
+      text-align: center;
+      gap: 8px;
+  }
+  
+  .forecast-condition {
+      text-align: center;
+      min-width: auto;
+  }
+  
+  .current-temp {
+      font-size: 2rem !important;
+  }
+}
+
+/* Add some micro-interactions */
+.container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition: all 0.3s ease;
+}
